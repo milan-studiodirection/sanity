@@ -2,18 +2,19 @@ import {defineQuery} from 'next-sanity'
 
 export const HOMEPAGE_QUERY = defineQuery(`
   *[_type == "homepage"][0] {
-    logo { "url": asset->url, alt },
+    _id,
+    logo { asset, alt },
     navCtaText,
     heroTitle,
     heroSubtitle,
     heroCtaText,
     heroCtaLink,
-    heroDashboardImage { "url": asset->url, alt },
+    heroDashboardImage { asset, alt },
     logosTitle,
     logos[] {
       _key,
       name,
-      logo { "url": asset->url, alt }
+      logo { asset, alt }
     },
     featuresTitle,
     featuresSubtitle,
@@ -21,7 +22,7 @@ export const HOMEPAGE_QUERY = defineQuery(`
       _key,
       title,
       description,
-      image { "url": asset->url, alt }
+      image { asset, alt }
     },
     statsTitle,
     stats[] { _key, number, label },
@@ -31,12 +32,30 @@ export const HOMEPAGE_QUERY = defineQuery(`
       quote,
       authorName,
       authorRole,
-      authorAvatar { "url": asset->url, alt }
+      authorAvatar { asset, alt }
     },
     ctaTitle,
     ctaSubtitle,
     ctaButtonText,
     ctaButtonLink,
-    footerCopyright
+    footerCopyright,
+    howItWorksTitle,
+    howItWorksSubtitle,
+    howItWorksSteps[] { _key, step, icon, title, description },
+    pricingTitle,
+    pricingSubtitle,
+    pricingPlans[] {
+      _key, name, price, period, description,
+      features,
+      ctaText, ctaLink, highlighted
+    },
+    trustTitle,
+    trustSubtitle,
+    trustBadges[] { _key, icon, title, description },
+    seo {
+      metaTitle,
+      metaDescription,
+      ogImage { asset }
+    }
   }
 `)

@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     if (secret && hasSignatureHeader) {
       // GROQ webhook with secret — validate signature
       const parsed = await parseBody<WebhookPayload>(req, secret, true)
-      if (!parsed.isValidSignature) {
+      if (!parsed.isValidSignature || !parsed.body) {
         return new Response(JSON.stringify({message: 'Invalid signature'}), {status: 401})
       }
       body = parsed.body

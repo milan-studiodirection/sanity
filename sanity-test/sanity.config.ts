@@ -4,6 +4,7 @@ import {visionTool} from '@sanity/vision'
 import {presentationTool, defineDocuments, defineLocations} from 'sanity/presentation'
 import {CogIcon, HomeIcon, DocumentTextIcon, UsersIcon, TagIcon} from '@sanity/icons'
 import {schemaTypes} from './schemaTypes'
+import {PresentationNavigator} from './components/PresentationNavigator'
 
 export default defineConfig({
   name: 'default',
@@ -39,6 +40,13 @@ export default defineConfig({
     }),
     visionTool(),
     presentationTool({
+      components: {
+        unstable_navigator: {
+          component: PresentationNavigator,
+          minWidth: 120,
+          maxWidth: 280,
+        },
+      },
       previewUrl: {
         origin: 'http://localhost:3000',
         previewMode: {

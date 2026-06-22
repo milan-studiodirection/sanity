@@ -13,10 +13,6 @@ export default defineConfig({
   projectId: 'r0nmxv5e',
   dataset: 'production',
 
-  scheduledPublishing: {
-    enabled: true,
-  },
-
   plugins: [
     structureTool({
       structure: (S) =>

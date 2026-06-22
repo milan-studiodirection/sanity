@@ -48,7 +48,7 @@ export default defineConfig({
         },
       },
       previewUrl: {
-        origin: 'http://localhost:3000',
+        origin: 'https://my-site-studio-direction.vercel.app',
         previewMode: {
           enable: '/api/draft-mode/enable',
           disable: '/api/draft-mode/disable',

@@ -25,10 +25,10 @@ export default async function Header() {
 
         {/* Nav links */}
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link: {_key: string; label: string; href: string; openInNewTab?: boolean | null}) => (
+          {navLinks.map((link) => (
             <Link
               key={link._key}
-              href={link.href}
+              href={link.href ?? '#'}
               target={link.openInNewTab ? '_blank' : undefined}
               rel={link.openInNewTab ? 'noopener noreferrer' : undefined}
               className="text-slate-300 hover:text-white text-sm transition-colors"

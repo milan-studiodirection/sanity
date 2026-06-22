@@ -58,12 +58,12 @@ export const post = defineType({
       group: 'meta',
     }),
     defineField({
-      name: 'categories',
-      title: 'Categories',
+      name: 'tags',
+      title: 'Tags',
       type: 'array',
       group: 'meta',
-      icon: TagIcon,
-      of: [defineArrayMember({type: 'string'})],
+      of: [defineArrayMember({type: 'reference', to: [{type: 'tag'}]})],
+      description: 'Link to Tag documents. Create tags under the Tags section first.',
     }),
     defineField({
       name: 'author',

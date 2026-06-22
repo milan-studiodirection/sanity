@@ -9,7 +9,12 @@ export const ALL_POSTS_QUERY = defineQuery(`
     coverImage { asset, alt },
     publishedAt,
     readTime,
-    categories,
+    tags[]-> {
+      _id,
+      name,
+      "slug": slug.current,
+      color
+    },
     author-> {
       _id,
       name,
@@ -28,7 +33,12 @@ export const POST_QUERY = defineQuery(`
     coverImage { asset, alt },
     publishedAt,
     readTime,
-    categories,
+    tags[]-> {
+      _id,
+      name,
+      "slug": slug.current,
+      color
+    },
     author-> {
       _id,
       name,

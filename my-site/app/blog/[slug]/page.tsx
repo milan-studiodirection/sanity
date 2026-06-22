@@ -173,7 +173,7 @@ export async function generateStaticParams() {
     perspective: 'published',
     stega: false,
   })
-  return slugs?.map((s: {slug: string}) => ({slug: s.slug})) ?? []
+  return (slugs ?? []).filter((s) => s.slug != null).map((s) => ({slug: s.slug as string}))
 }
 
 export default async function PostPage({params}: {params: Promise<{slug: string}>}) {
@@ -206,13 +206,17 @@ export default async function PostPage({params}: {params: Promise<{slug: string}
         )}
 
         <article className="max-w-3xl mx-auto px-6 py-14">
-          {/* Categories */}
-          {post.categories?.length ? (
+          {/* Tags */}
+          {post.tags?.length ? (
             <div className="flex flex-wrap gap-2 mb-5">
-              {post.categories.map((cat: string) => (
-                <span key={cat} className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">
-                  {cat}
-                </span>
+              {post.tags.map((tag) => (
+                <Link
+                  key={tag._id}
+                  href={`/blog/tag/${tag.slug ?? ''}`}
+                  className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full hover:bg-indigo-100 transition-colors"
+                >
+                  {tag.name}
+                </Link>
               ))}
             </div>
           ) : null}
@@ -331,16 +335,7 @@ export default async function PostPage({params}: {params: Promise<{slug: string}
             <div className="max-w-3xl mx-auto">
               <h2 className="text-xl font-bold text-slate-900 mb-8">Continue reading</h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {post.relatedPosts.map((related: {
-                  _id: string
-                  title: string
-                  slug: string
-                  excerpt?: string | null
-                  coverImage?: {asset?: unknown; alt?: string | null} | null
-                  publishedAt?: string | null
-                  readTime?: number | null
-                  author?: {name?: string | null; avatar?: {asset?: unknown; alt?: string | null} | null} | null
-                }) => (
+                {post.relatedPosts.map((related) => (
                   <Link
                     key={related._id}
                     href={`/blog/${related.slug}`}
@@ -350,7 +345,7 @@ export default async function PostPage({params}: {params: Promise<{slug: string}
                       {related.coverImage?.asset ? (
                         <Image
                           src={urlFor(related.coverImage as Parameters<typeof urlFor>[0]).width(400).height(225).format('webp').quality(80).url()}
-                          alt={related.coverImage.alt ?? related.title}
+                          alt={related.coverImage.alt ?? related.title ?? ''}
                           width={400}
                           height={225}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

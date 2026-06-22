@@ -157,7 +157,7 @@ export default async function HomePage() {
             <div className="absolute inset-0 rounded-t-2xl ring-1 ring-inset ring-white/10 pointer-events-none z-10" />
             {data?.heroDashboardImage?.asset ? (
               <Image
-                src={urlFor(data.heroDashboardImage as SanityImg).width(1200).height(720).format('webp').quality(90).url()}
+                src={urlFor(data.heroDashboardImage).width(1200).height(720).format('webp').quality(90).url()}
                 alt={(data.heroDashboardImage as SanityImg)?.alt ?? 'Dashboard'}
                 width={1200}
                 height={720}
@@ -193,10 +193,10 @@ export default async function HomePage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-10">
             {d.logos.length > 0
-              ? d.logos.map((logo: {_key: string; name: string; logo?: SanityImg}) => (
+              ? d.logos.map((logo) => (
                   <div key={logo._key} data-sanity={attr(`logos[_key=="${logo._key}"].name`)} className="text-slate-400 font-semibold text-base">
                     {logo.logo?.asset ? (
-                      <Image src={urlFor(logo.logo).width(160).height(56).format('webp').url()} alt={(logo.logo as SanityImg)?.alt ?? logo.name} width={80} height={28} className="h-7 w-auto object-contain opacity-60" />
+                      <Image src={urlFor(logo.logo).width(160).height(56).format('webp').url()} alt={(logo.logo as SanityImg)?.alt ?? logo.name ?? ''} width={80} height={28} className="h-7 w-auto object-contain opacity-60" />
                     ) : (
                       <span>{logo.name}</span>
                     )}
@@ -232,7 +232,7 @@ export default async function HomePage() {
             {/* Connecting line */}
             <div className="absolute top-10 left-[calc(16.66%+32px)] right-[calc(16.66%+32px)] h-px bg-gradient-to-r from-indigo-200 via-indigo-300 to-indigo-200 hidden md:block" />
 
-            {d.howItWorksSteps.map((step: {_key: string; step?: number; icon?: string; title: string; description: string}, i: number) => (
+            {d.howItWorksSteps.map((step, i) => (
               <AnimateIn key={step._key} delay={i * 150} className="relative text-center">
                 <div className="relative inline-flex w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 items-center justify-center shadow-xl shadow-indigo-500/25">
                   <span className="text-3xl">{step.icon ?? String(i + 1)}</span>
@@ -278,14 +278,14 @@ export default async function HomePage() {
           </AnimateIn>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {d.features.map((feature: {_key: string; title: string; description: string; image?: SanityImg}, i: number) => (
+            {d.features.map((feature, i) => (
               <AnimateIn key={feature._key} delay={i * 100}>
                 <div className="group rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                   <div className="aspect-video bg-slate-100 overflow-hidden">
                     {feature.image?.asset ? (
                       <Image
                         src={urlFor(feature.image).width(600).height(340).format('webp').quality(85).url()}
-                        alt={(feature.image as SanityImg)?.alt ?? feature.title}
+                        alt={(feature.image as SanityImg)?.alt ?? feature.title ?? ''}
                         width={600}
                         height={340}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -327,7 +327,7 @@ export default async function HomePage() {
             </h2>
           </AnimateIn>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {d.stats.map((stat: {_key: string; number: string; label: string}, i: number) => (
+            {d.stats.map((stat, i) => (
               <AnimateIn key={stat._key} delay={i * 100}>
                 <div className="flex flex-col gap-2 group">
                   <span
@@ -360,7 +360,7 @@ export default async function HomePage() {
           </AnimateIn>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
-            {d.pricingPlans.map((plan: {_key: string; name: string; price: string; period?: string; description: string; features?: string[]; ctaText: string; ctaLink: string; highlighted: boolean}, i: number) => (
+            {d.pricingPlans.map((plan, i) => (
               <AnimateIn key={plan._key} delay={i * 100}>
                 <div className={`relative rounded-2xl p-8 flex flex-col gap-6 transition-all ${
                   plan.highlighted
@@ -404,7 +404,7 @@ export default async function HomePage() {
                   </ul>
 
                   <a
-                    href={plan.ctaLink}
+                    href={plan.ctaLink ?? '#'}
                     className={`mt-auto block text-center font-semibold px-6 py-3 rounded-xl transition-all text-sm ${
                       plan.highlighted
                         ? 'bg-white text-indigo-600 hover:bg-indigo-50'
@@ -431,7 +431,7 @@ export default async function HomePage() {
           </AnimateIn>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {d.testimonials.map((t: {_key: string; quote: string; authorName: string; authorRole: string; authorAvatar?: SanityImg}, i: number) => (
+            {d.testimonials.map((t, i) => (
               <AnimateIn key={t._key} delay={i * 100}>
                 <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 flex flex-col gap-6 hover:shadow-md transition-shadow">
                   {/* Stars */}
@@ -452,7 +452,7 @@ export default async function HomePage() {
                       {t.authorAvatar?.asset ? (
                         <Image
                           src={urlFor(t.authorAvatar).width(80).height(80).format('webp').quality(85).url()}
-                          alt={(t.authorAvatar as SanityImg)?.alt ?? t.authorName}
+                          alt={(t.authorAvatar as SanityImg)?.alt ?? t.authorName ?? ''}
                           width={40}
                           height={40}
                           className="w-full h-full object-cover"
@@ -461,7 +461,7 @@ export default async function HomePage() {
                         />
                       ) : (
                         <div className="w-full h-full bg-indigo-100 flex items-center justify-center text-indigo-600 text-sm font-bold">
-                          {t.authorName[0]}
+                          {t.authorName?.[0]}
                         </div>
                       )}
                     </div>
@@ -496,7 +496,7 @@ export default async function HomePage() {
           </AnimateIn>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {d.trustBadges.map((badge: {_key: string; icon: string; title: string; description: string}, i: number) => (
+            {d.trustBadges.map((badge, i) => (
               <AnimateIn key={badge._key} delay={i * 100}>
                 <div className="flex flex-col items-center text-center bg-white/5 hover:bg-white/8 rounded-2xl p-7 border border-white/10 hover:border-indigo-500/30 transition-all group">
                   <span className="text-4xl mb-4 group-hover:scale-110 transition-transform">{badge.icon}</span>
